@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">SmartBadge</string>
+    <string name="service_id">com.potatobon.smartbadge</string>
+    <string name="received_default">Received: N/A</string>
 </resources>

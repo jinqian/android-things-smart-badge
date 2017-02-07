@@ -10,6 +10,10 @@
 
         <uses-library android:name="com.google.android.things" />
 
+        <meta-data
+            android:name="com.google.android.gms.nearby.connection.SERVICE_ID"
+            android:value="@string/service_id" />
+
         <activity android:name=".DisplayActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
