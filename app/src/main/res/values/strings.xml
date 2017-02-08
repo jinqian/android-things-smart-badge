@@ -3,4 +3,7 @@
     <string name="service_id">com.potatobon.smartbadge.display</string>
 
     <string name="received_default">Received: N/A</string>
+    <string name="io_exception">Error configuring display.</string>
+    <string name="received_display">Received: %s</string>
+    <string name="status_display">Status: %s</string>
 </resources>
