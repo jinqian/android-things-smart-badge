@@ -3,6 +3,7 @@ package com.potatobon.smartbadge.display;
 import android.app.Activity;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.widget.TextView;
 
@@ -18,9 +19,7 @@ public class BadgeDisplayActivity extends Activity implements BadgeDisplayContra
      */
     private static final String I2C_BUS = BoardDefaults.getI2CPort();
 
-    private AlphanumericDisplay segmentDisplay;
     private BadgeDisplayPresenter presenter;
-
     private TextView statusTextView;
     private TextView receivedMessageTextView;
 
@@ -51,29 +50,20 @@ public class BadgeDisplayActivity extends Activity implements BadgeDisplayContra
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (segmentDisplay != null) {
-            Log.i(TAG, "Closing display");
-            try {
-                segmentDisplay.close();
-            } catch (IOException e) {
-                Log.e(TAG, "Error closing display", e);
-            } finally {
-                segmentDisplay = null;
-            }
-        }
     }
 
     @Override
     public void displayText(String message) {
         receivedMessageTextView.setText(String.format("Received: %s", message));
         try {
-            segmentDisplay = new AlphanumericDisplay(I2C_BUS);
+            AlphanumericDisplay segmentDisplay = new AlphanumericDisplay(I2C_BUS);
             segmentDisplay.setBrightness(1.0f);
             segmentDisplay.setEnabled(true);
             segmentDisplay.clear();
             segmentDisplay.display(message);
+            segmentDisplay.close();
         } catch (IOException e) {
-            Log.e(TAG, "Error configuring display", e);
+            statusTextView.setText("Error configuring display.");
         }
     }
 

@@ -84,9 +84,9 @@ public class BadgeDisplayPresenter implements BadgeDisplayContract.Presenter,
                     public void onResult(@NonNull Connections.StartAdvertisingResult result) {
                         Status status = result.getStatus();
                         if (status.isSuccess()) {
-                            view.displayStatus("StartAdvertising:onResult: SUCCESS");
+                            view.displayStatus("Advertising result: SUCCESS");
                         } else {
-                            view.displayStatus("StartAdvertising:onResult: FAILURE " + status.getStatusCode());
+                            view.displayStatus("Advertising result: FAILURE " + status.getStatusCode());
                             int statusCode = status.getStatusCode();
                             if (statusCode == ConnectionsStatusCodes.STATUS_ALREADY_ADVERTISING) {
                                 Log.d(TAG, "STATUS_ALREADY_ADVERTISING");
@@ -129,9 +129,9 @@ public class BadgeDisplayPresenter implements BadgeDisplayContract.Presenter,
                     @Override
                     public void onResult(@NonNull Status status) {
                         if (status.isSuccess()) {
-                            view.displayStatus("acceptConnectionRequest: SUCCESS");
+                            view.displayStatus("Accept connection request: SUCCESS");
                         } else {
-                            view.displayStatus("acceptConnectionRequest: FAILURE " + status.getStatusMessage());
+                            view.displayStatus("Accept connection request: FAILURE " + status.getStatusMessage());
                         }
                     }
                 });

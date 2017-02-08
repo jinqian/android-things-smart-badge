@@ -105,9 +105,9 @@ public class BadgeControlPresenter implements BadgeControlContract.Presenter,
                             return;
                         }
                         if (status.isSuccess()) {
-                            Log.d(TAG, "startDiscovery:onResult: SUCCESS ");
+                            Log.d(TAG, "Discovery result: SUCCESS ");
                         } else {
-                            Log.d(TAG, "startDiscovery:onResult: FAILURE");
+                            Log.d(TAG, "Discovery result: FAILURE");
                             int statusCode = status.getStatusCode();
                             if (statusCode == ConnectionsStatusCodes.STATUS_ALREADY_DISCOVERING) {
                                 Log.d(TAG, "STATUS_ALREADY_DISCOVERING");

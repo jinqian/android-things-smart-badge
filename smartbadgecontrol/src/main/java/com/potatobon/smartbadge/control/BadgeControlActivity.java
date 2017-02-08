@@ -2,6 +2,7 @@ package com.potatobon.smartbadge.control;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatButton;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -12,6 +13,8 @@ public class BadgeControlActivity extends AppCompatActivity implements BadgeCont
 
     private static final String TAG = BadgeControlActivity.class.getSimpleName();
     private BadgeControlPresenter presenter;
+
+    private AppCompatButton sendButton;
     private EditText textToDisplay;
 
     @Override
@@ -19,9 +22,19 @@ public class BadgeControlActivity extends AppCompatActivity implements BadgeCont
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        sendButton = (AppCompatButton) findViewById(R.id.send_text);
         textToDisplay = (EditText) findViewById(R.id.text_to_display);
 
         presenter = new BadgeControlPresenter(this, getString(R.string.service_id));
+
+        sendButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String text = textToDisplay.getText().toString();
+                Log.d(TAG, "Text to send: " + text);
+                presenter.setTextToDisplay(text);
+            }
+        });
     }
 
     @Override
@@ -34,19 +47,6 @@ public class BadgeControlActivity extends AppCompatActivity implements BadgeCont
     protected void onStop() {
         super.onStop();
         presenter.unregisterView();
-    }
-
-    public void onSendMessageClick(View view) {
-        try {
-            InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
-        } catch (Exception e) {
-
-        }
-
-        String text = textToDisplay.getText().toString();
-        Log.d(TAG, "Text to send: " + text);
-        presenter.setTextToDisplay(text);
     }
 
     @Override
