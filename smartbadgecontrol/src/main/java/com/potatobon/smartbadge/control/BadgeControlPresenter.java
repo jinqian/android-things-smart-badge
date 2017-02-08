@@ -50,7 +50,9 @@ public class BadgeControlPresenter implements BadgeControlContract.Presenter,
     @Override
     public void unregisterView() {
         this.view = null;
-        googleApiClient.disconnect();
+        if (googleApiClient != null && googleApiClient.isConnected()) {
+            googleApiClient.disconnect();
+        }
     }
 
     @Override
