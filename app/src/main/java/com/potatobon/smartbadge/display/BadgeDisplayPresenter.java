@@ -1,4 +1,4 @@
-package com.potatobon.smartbadge;
+package com.potatobon.smartbadge.display;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -18,25 +18,24 @@ import com.google.android.gms.nearby.connection.AppMetadata;
 import com.google.android.gms.nearby.connection.Connections;
 import com.google.android.gms.nearby.connection.ConnectionsStatusCodes;
 
-import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DisplayPresenter implements DisplayContract.Presenter,
+public class BadgeDisplayPresenter implements BadgeDisplayContract.Presenter,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener, Connections.ConnectionRequestListener, Connections.MessageListener {
 
 
-    private static final String TAG = "DisplayPresenter";
+    private static final String TAG = "BadgeDisplayPresenter";
 
-    private DisplayContract.View view;
+    private BadgeDisplayContract.View view;
     private ConnectivityManager connectivityManager;
 
     private final String serviceId;
     private final String packageName;
     private final GoogleApiClient googleApiClient;
 
-    public DisplayPresenter(Context context, ConnectivityManager connectivityManager, String serviceId, String packageName) {
+    public BadgeDisplayPresenter(Context context, ConnectivityManager connectivityManager, String serviceId, String packageName) {
         googleApiClient = new GoogleApiClient.Builder(context)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
@@ -54,7 +53,7 @@ public class DisplayPresenter implements DisplayContract.Presenter,
     }
 
     @Override
-    public void registerView(DisplayContract.View view) {
+    public void registerView(BadgeDisplayContract.View view) {
         this.view = view;
         googleApiClient.connect();
     }
@@ -83,13 +82,12 @@ public class DisplayPresenter implements DisplayContract.Presenter,
                 .setResultCallback(new ResultCallback<Connections.StartAdvertisingResult>() {
                     @Override
                     public void onResult(@NonNull Connections.StartAdvertisingResult result) {
-                        Log.d(TAG, "startAdvertising:onResult:" + result);
-                        if (result.getStatus().isSuccess()) {
-                            Log.d(TAG, "startAdvertising:onResult: SUCCESS");
-
+                        Status status = result.getStatus();
+                        if (status.isSuccess()) {
+                            view.displayStatus("StartAdvertising:onResult: SUCCESS");
                         } else {
-                            Log.d(TAG, "startAdvertising:onResult: FAILURE ");
-                            int statusCode = result.getStatus().getStatusCode();
+                            view.displayStatus("StartAdvertising:onResult: FAILURE " + status.getStatusCode());
+                            int statusCode = status.getStatusCode();
                             if (statusCode == ConnectionsStatusCodes.STATUS_ALREADY_ADVERTISING) {
                                 Log.d(TAG, "STATUS_ALREADY_ADVERTISING");
                             } else {
@@ -131,10 +129,9 @@ public class DisplayPresenter implements DisplayContract.Presenter,
                     @Override
                     public void onResult(@NonNull Status status) {
                         if (status.isSuccess()) {
-                            Log.d(TAG, "acceptConnectionRequest: SUCCESS");
-
+                            view.displayStatus("acceptConnectionRequest: SUCCESS");
                         } else {
-                            Log.d(TAG, "acceptConnectionRequest: FAILURE");
+                            view.displayStatus("acceptConnectionRequest: FAILURE " + status.getStatusMessage());
                         }
                     }
                 });
@@ -143,7 +140,7 @@ public class DisplayPresenter implements DisplayContract.Presenter,
     @Override
     public void onMessageReceived(String s, byte[] bytes, boolean b) {
         Log.d(TAG, "onMessageReceived");
-        String text = String.valueOf(ByteBuffer.wrap(bytes).getChar());
+        String text = new String(bytes);
         view.displayText(text);
     }
 

@@ -1,6 +1,6 @@
-package com.potatobon.smartbadge;
+package com.potatobon.smartbadge.display;
 
-interface DisplayContract {
+interface BadgeDisplayContract {
 
     interface Presenter {
 

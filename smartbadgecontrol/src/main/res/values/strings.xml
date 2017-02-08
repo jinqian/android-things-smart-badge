@@ -1,3 +1,8 @@
 <resources>
-    <string name="app_name">Smartbadge Display</string>
+    <string name="app_name">Smartbadge Control</string>
+    <string name="send">Send</string>
+
+    <string name="google_api_not_connected">Not connected to display.</string>
+    <string name="connected_to">Connected to: %s</string>
+    <string name="service_id">com.potatobon.smartbadge.display</string>
 </resources>

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.potatobon.smartbadge;
+package com.potatobon.smartbadge.display;
 
 import android.os.Build;
 

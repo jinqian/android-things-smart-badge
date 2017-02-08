@@ -1,4 +1,4 @@
-package com.potatobon.smartbadge;
+package com.potatobon.smartbadge.display;
 
 import android.app.Activity;
 import android.net.ConnectivityManager;
@@ -10,16 +10,16 @@ import com.google.android.things.contrib.driver.ht16k33.AlphanumericDisplay;
 
 import java.io.IOException;
 
-public class DisplayActivity extends Activity implements DisplayContract.View {
+public class BadgeDisplayActivity extends Activity implements BadgeDisplayContract.View {
 
-    private static final String TAG = DisplayActivity.class.getSimpleName();
+    private static final String TAG = BadgeDisplayActivity.class.getSimpleName();
     /**
      * I2C bus the segment display is connected to.
      */
     private static final String I2C_BUS = BoardDefaults.getI2CPort();
 
     private AlphanumericDisplay segmentDisplay;
-    private DisplayPresenter presenter;
+    private BadgeDisplayPresenter presenter;
 
     private TextView statusTextView;
     private TextView receivedMessageTextView;
@@ -33,7 +33,7 @@ public class DisplayActivity extends Activity implements DisplayContract.View {
 
         Log.i(TAG, "Starting SegmentDisplayActivity");
         ConnectivityManager cm = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
-        presenter = new DisplayPresenter(this, cm, getString(R.string.service_id), getPackageName());
+        presenter = new BadgeDisplayPresenter(this, cm, getString(R.string.service_id), getPackageName());
     }
 
     @Override
